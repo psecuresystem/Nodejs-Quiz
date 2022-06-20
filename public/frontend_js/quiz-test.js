@@ -879,7 +879,7 @@ async function nextQuestion(goBack, goBackFromResponse, fromDependedOn) {
             }, closeResponseTimeoutCounter);
             // closeResponseTimeout = setTimeout(async () => {
             //   closeResponse();
-            // }, closeResponseTimeoutCounter);
+            // }, closeResponseTimeoutCounter)
           }
         } else if (apiQues.answers && apiQues.answers[0].responseBody) {
           $("#page3").css("display", "none");
