@@ -874,6 +874,9 @@ async function nextQuestion(goBack, goBackFromResponse, fromDependedOn) {
             );
             responseOnGoing = true;
             hasNoResponse = false;
+            closeResponseTimeout = setTimeout(async () => {
+              closeResponse();
+            }, closeResponseTimeoutCounter);
             // closeResponseTimeout = setTimeout(async () => {
             //   closeResponse();
             // }, closeResponseTimeoutCounter);
