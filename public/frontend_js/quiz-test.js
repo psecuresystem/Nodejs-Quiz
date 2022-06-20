@@ -117,6 +117,27 @@ if (customerId || customerEmail) {
     });
 }
 
+function terminateQuiz() {
+  $("#page1").css("display", "none");
+  $("#page2").css("display", "none");
+  $("#page3").css("display", "none");
+  $("#page4").css("display", "none");
+  $("#page5").css("display", "none");
+  $("#page6").css("display", "none");
+  $("#page7").css("display", "none");
+  $("#page8").css("display", "flex");
+  let countdown = 10;
+  $("#counter").text(`${countdown}`);
+  let interval = setInterval(() => {
+    countdown -= 1;
+    $("#counter").text(`${countdown}`);
+    if (countdown == 0) {
+      clearInterval(interval);
+      location.assign("http://localhost:3001/");
+    }
+  }, 1000);
+}
+
 function getQuizzesApi() {
   return new Promise(function (resolve, reject) {
     $.ajax({
@@ -1196,6 +1217,11 @@ async function askQuestion(totalQuizQuestions, counter, fromBack) {
         `);
       }
     });
+    $("#typeMcq .answerInner").append(`
+          <div class="mcqOptions">
+            <button data-val="none" data-id="none" data-answer-value="none" data-bl-active='${null}' class="multiBtns mcqBtn">None of the options</button>
+          </div>
+        `);
     if (alreadyAnswered && alreadyAnswered.answer) {
       $(`#typeMcq button[data-val="${alreadyAnswered.answer}"]`).addClass(
         "highlight"
@@ -1427,6 +1453,7 @@ async function askQuestion(totalQuizQuestions, counter, fromBack) {
     $("#questionRow h1").html(newQues);
   } else {
     $("#questionRow h1").html(ques.question);
+    1;
   }
   currentQuestionCounter++;
 }
@@ -1920,6 +1947,10 @@ $(document).on("click", ".selectionBtn", function (evt, isCustom) {
     tempSelectionAns.push(val);
     if (!$(this).hasClass("active")) $(this).addClass("active");
     if (!$(this).hasClass("highlight")) $(this).addClass("highlight");
+  }
+  let bad = ["Banana", "Olive", "Sunflowers"];
+  if (bad.includes(val)) {
+    terminateQuiz();
   }
   if (!isCustom) {
     timeout = setTimeout(function () {
